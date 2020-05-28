@@ -10,7 +10,11 @@
                 <label for="title">Titre :</label>
                 <input type="text" id="title" name="title">
             </li>
-            <li>
+            <li> <!--lien pour des image-->
+                <label for="img">Image :</label>
+                <input type="file" id="img" name="img">
+            </li>
+            <li>  
                 <label class="textarea" for="contents">Article :</label>
                 <textarea id="contents" name="contents" rows="15"></textarea>
             </li>

@@ -89,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `Comment` (
 CREATE TABLE IF NOT EXISTS `Post` (
   `Id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `Title` varchar(100) NOT NULL,
+  `img_link` varchar(255) NOT NULL,
   `Contents` text NOT NULL,
   `CreationTimestamp` datetime NOT NULL,
   `Author_Id` tinyint(3) unsigned DEFAULT NULL,

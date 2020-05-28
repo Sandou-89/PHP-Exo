@@ -1,15 +1,28 @@
 <!-- Page d'article de blog détaillé avec les commentaires -->
-<h2><i class="fa fa-file-text-o"></i> Article</h2>
+</br><h2> Article</h2></br>
 
 <!-- Article du blog -->
-<section class="post">
-    <h3><?= htmlspecialchars($post['Title']) ?></h3>
-    <article><?= nl2br(htmlspecialchars($post['Contents'])) ?></article>
-    <small>
-        Rédigé par <?= htmlspecialchars($post['FirstName']) ?> <?= htmlspecialchars($post['LastName']) ?>
-        le <?= htmlspecialchars($post['CreationTimestamp']) ?>
-    </small>
-</section>
+<!-- Title -->
+<h3><?= htmlspecialchars($post['Title']) ?></h3>
+
+<!-- Author -->
+<p class="lead">
+  by
+  <?= htmlspecialchars($post['FirstName']) ?> <?= htmlspecialchars($post['LastName']) ?>
+</p>
+
+<!-- Date/Time -->
+Posted on <?= htmlspecialchars($post['CreationTimestamp']) ?>
+
+<hr>
+
+<!-- Preview Image -->
+<img class="img-fluid rounded" src="./images/articles/<?=$post["img_link"]?>" alt="image articles">
+
+<hr>
+
+<!-- Post Content -->
+<p class="lead"><article><?= nl2br(htmlspecialchars($post['Contents'])) ?></article></p>
 
 <hr>
 
@@ -17,7 +30,7 @@
 <ul class="comment-list">
     <?php foreach($comments as $comment): ?>
         <li class="comment">
-            <h4><i class="fa fa-comment"></i> Rédigé par <?= htmlspecialchars($comment['NickName']) ?></h4>
+            <h4><i class="fa fa-comment"></i> Commentaire par <?= htmlspecialchars($comment['NickName']) ?></h4>
             <article><?= htmlspecialchars($comment['Contents']) ?></article>
         </li>
     <?php endforeach; ?>

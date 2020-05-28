@@ -8,6 +8,7 @@
         SELECT
             Post.Id,
             Title,
+            img_link,
             Contents,
             CreationTimestamp,
             FirstName,

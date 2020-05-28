@@ -15,6 +15,10 @@
                 <input type="text" id="title" name="title" value="<?= htmlspecialchars($post['Title']) ?>">
             </li>
             <li>
+                <label for="img">Image :</label>
+                <input type="file" id="img" name="img" value="<?= htmlspecialchars($post['Contents']) ?>">
+            </li>
+            <li>
                 <label class="textarea" for="contents">Article :</label>
                 <textarea id="contents" name="contents" rows="15"><?= htmlspecialchars($post['Contents']) ?></textarea>
             </li>

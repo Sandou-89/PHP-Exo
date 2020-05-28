@@ -17,6 +17,7 @@
             SELECT
                 Id,
                 Title,
+                img_link
                 Contents
             FROM
                 Post
@@ -41,11 +42,12 @@
             SET
                 Title = ?,
                 Contents = ?
+                img_link = ?
             WHERE
                 Id = ?
         ';
         $resultSet = $pdo->prepare($query);
-        $resultSet->execute([$_POST['title'], $_POST['contents'], $_POST['postId']]);
+        $resultSet->execute([$_POST['title'], $_POST['img'], $_POST['contents'], $_POST['postId']]);
 
         // Retour au panneau d'administration.
         header('Location: admin.php');
