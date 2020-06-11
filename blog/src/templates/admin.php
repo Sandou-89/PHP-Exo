@@ -1,32 +1,34 @@
-<h2> Panneau d'administration</h2>
+<?php
 
-<nav>
-    <a href="add_post.php">Rédiger un nouvel article</a>
-</nav>
+    include 'application/bdd_connection.php';
 
-<table class="table">
- <caption>Liste des articles</caption>
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">Titre</th>
-      <th scope="col">Article</th>
-      <th scope="col">Auteur</th>
-      <th scope="col">Catégorie</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php foreach($posts as $post): ?>
-    <tr>
-      <td><a href="show_post.php?id=<?= intval($post['Id']) ?>" target="_blank"><?= htmlspecialchars($post['Title']) ?></a></td>
-      <td><?= substr(htmlspecialchars($post['Contents']), 0, 200) ?></td>
-      <td><?= htmlspecialchars($post['FirstName']) ?> <?= htmlspecialchars($post['LastName']) ?></td>
-      <td><?= htmlspecialchars($post['Category_Name']) ?></td>
-      <td>
-      <a class="edit" href="edit_post.php?id=<?= intval($post['Id']) ?>"><i class="fa fa-pencil"></i></a>
-      <a class="remove" href="delete_post.php?id=<?= intval($post['Id']) ?>"><i class="fa fa-remove"></i></a>
-     </td>
-    </tr>
-    <?php endforeach ?>
-  </tbody>
-</table>
+    // Récupération de tous les articles du blog classés par ordre antéchronologique.
+    $query =
+    '
+        SELECT
+            Post.Id,
+            Title,
+            Contents,
+            CreationTimestamp,
+            FirstName,
+            LastName,
+            Category.Name AS Category_Name
+        FROM
+            Post
+        INNER JOIN
+            Author
+        ON
+            Post.Author_Id = Author.Id
+        INNER JOIN
+            Category
+        ON
+            Post.Category_Id = Category.Id
+        ORDER BY
+            CreationTimestamp DESC
+    ';
+    $resultSet = $pdo->query($query);
+    $posts = $resultSet->fetchAll();
+
+    // Sélection et affichage du template PHTML.
+    $template = 'admin';
+    include 'templates/layout.php';

@@ -53,3 +53,4 @@
         header('Location: admin.php');
         exit();
     }
+© 2020 GitHub, Inc.

@@ -1,43 +1,53 @@
-<!-- Page d'ajout d'un article -->
-<h2><i class="fa fa-pencil"></i> Rédiger un nouvel article</h2>
+<?php
 
-<!-- Formulaire de saisie d'un nouvel article -->
-<form class="generic-form" action="add_post.php" method="post">
-    <fieldset>
-        <legend><i class="fa fa-sticky-note-o"></i> Nouvel article</legend>
-        <ul>
-            <li>
-                <label for="title">Titre :</label>
-                <input type="text" id="title" name="title">
-            </li>
-            <li> <!--lien pour des image-->
-                <label for="img">Image :</label>
-                <input type="file" id="img" name="img">
-            </li>
-            <li>  
-                <label class="textarea" for="contents">Article :</label>
-                <textarea id="contents" name="contents" rows="15"></textarea>
-            </li>
-            <li>
-                <label for="author">Auteur :</label>
-                <select id="author" name="author">
-                    <?php foreach($authors as $author): ?>
-                        <option value="<?= intval($author['Id']) ?>"><?= htmlspecialchars($author['FirstName']) ?> <?= htmlspecialchars($author['LastName']) ?></option>
-                    <?php endforeach ?>
-                </select>
-            </li>
-            <li>
-                <label for="category">Catégorie :</label>
-                <select id="category" name="category">
-                    <?php foreach($categories as $category): ?>
-                        <option value="<?= intval($category['Id']) ?>"><?= htmlspecialchars($category['Name']) ?></option>
-                    <?php endforeach ?>
-                </select>
-            </li>
-            <li>
-                <button class="button button-primary" type="submit">Enregistrer</button>
-                <a class="button button-cancel" href="index.php">Annuler</a>
-            </li>
-        </ul>
-    </fieldset>
-</form>
+    include 'application/bdd_connection.php';
+
+    if(empty($_POST))
+    {
+        // Récupération de tous les auteurs du blog.
+        $query =
+        '
+            SELECT
+                Id,
+                FirstName,
+                LastName
+            FROM
+                Author
+        ';
+        $resultSet = $pdo->query($query);
+        $authors = $resultSet->fetchAll();
+
+        // Récupération de toutes les catégories du blog.
+        $query =
+        '
+            SELECT
+                Id,
+                Name
+            FROM
+                Category
+        ';
+        $resultSet = $pdo->query($query);
+        $categories = $resultSet->fetchAll();
+
+        // Sélection et affichage du template PHTML.
+        $template = 'add_post';
+        include 'templates/layout.php';
+    }
+    else
+    {
+        // Ajout d'un article du blog.
+        $query =
+        '
+            INSERT INTO
+                Post
+                (Title, img_link, Contents, Author_Id, Category_Id, CreationTimestamp)
+            VALUES
+                (?, ?, ?, ?, ?, NOW())
+        ';
+        $resultSet = $pdo->prepare($query);
+        $resultSet->execute([$_POST['title'], $_POST['img'], $_POST['contents'], $_POST['author'], $_POST['category']]);
+
+        // Retour à la page d'accueil une fois que le nouvel article du blog a été ajouté.
+        header('Location: index.php');
+        exit();
+    }
